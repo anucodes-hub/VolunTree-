@@ -48,16 +48,24 @@ from firebase_admin import credentials, firestore, storage, auth
 from gemini_service import GeminiService
 import uuid
 
+import json
+
 # Initialize Firebase
 try:
-    if os.path.exists("serviceAccountKey.json"):
+    if os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON"):
+        cred_dict = json.loads(os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON"))
+        cred = credentials.Certificate(cred_dict)
+        firebase_admin.initialize_app(cred, {
+            'storageBucket': 'voluntree-demo.appspot.com'
+        })
+    elif os.path.exists("serviceAccountKey.json"):
         cred = credentials.Certificate("serviceAccountKey.json")
         firebase_admin.initialize_app(cred, {
             'storageBucket': 'voluntree-demo.appspot.com'
         })
     else:
-        # Fallback for local dev without key - this will fail on DB calls but allow app to start
-        print("WARNING: serviceAccountKey.json not found. Database features will be disabled.")
+        # Fallback for local dev without key
+        print("WARNING: No Firebase credentials found. Database features disabled.")
         firebase_admin.initialize_app()
 except Exception as e:
     print(f"Firebase Init Warning: {e}")
