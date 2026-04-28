@@ -4,7 +4,8 @@ Team Name: Code Commando
 
 # 🌳 VolunTree: AI-Powered Disaster Response & Coordination
 
-![VolunTree Header](https://via.placeholder.com/1200x300/10B981/ffffff?text=VolunTree+Sahayak)
+![VolunTree Header]<img width="482" height="338" alt="image" src="https://github.com/user-attachments/assets/ac32bf34-fa8b-4080-89c3-4238f8b31d2c" />
+
 
 **VolunTree** is a next-generation crisis coordination platform. It bridges the gap between field workers identifying community emergencies and the skilled volunteers equipped to solve them. By leveraging **Google's Gemini Multimodal AI** and **Firebase**, VolunTree automates the triage, matching, and verification of disaster relief efforts.
 
