@@ -1,0 +1,34 @@
+{
+  "common": {
+    "back": "ಹಿಂದಕ್ಕೆ",
+    "submit": "ವರದಿ ಸಲ್ಲಿಸಿ",
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    "saveForSync": "ಸಿಂಕ್‌ಗಾಗಿ ಉಳಿಸಿ",
+    "exitToHome": "ಹೋಮ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+    "signIn": "ಸೈನ್ ಇನ್ ಮಾಡಿ",
+    "signUp": "ಈಗಲೇ ಸೈನ್ ಅಪ್ ಮಾಡಿ",
+    "demoPin": "ಡೆಮೊ ಪಿನ್: 1234"
+  },
+  "nav": {
+    "title": "VolunTree",
+    "signIn": "ಸೈನ್ ಇನ್ ಮಾಡಿ"
+  },
+  "roles": {
+    "title": "VolunTree",
+    "worker": { "title": "ಕ್ಷೇತ್ರ ಕಾರ್ಯಕರ್ತ" },
+    "volunteer": { "title": "ಸ್ವಯಂಸೇವಕ" },
+    "coordinator": { "title": "NGO ಸಂಯೋಜಕ" }
+  },
+  "capture": {
+    "photo": "ಫೋಟೋ",
+    "voice": "ಧ್ವನಿ ಟಿಪ್ಪಣಿ",
+    "categories": {
+      "water": "ನೀರು",
+      "food": "ಆಹಾರ",
+      "medical": "ವೈದ್ಯಕೀಯ",
+      "shelter": "ಆಶ್ರಯ",
+      "safety": "ಸುರಕ್ಷತೆ",
+      "other": "ಇತರೆ"
+    }
+  }
+}

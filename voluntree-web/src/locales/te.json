@@ -1,0 +1,34 @@
+{
+  "common": {
+    "back": "వెనుకకు",
+    "submit": "నివేదికను సమర్పించండి",
+    "loading": "లోడ్ అవుతోంది...",
+    "saveForSync": "సింక్ కోసం సేవ్ చేయండి",
+    "exitToHome": "హోమ్‌కు తిరిగి వెళ్లండి",
+    "signIn": "సైన్ ఇన్ చేయండి",
+    "signUp": "ఇప్పుడే సైన్ అప్ చేయండి",
+    "demoPin": "డెమో పిన్: 1234"
+  },
+  "nav": {
+    "title": "VolunTree",
+    "signIn": "సైన్ ఇన్ చేయండి"
+  },
+  "roles": {
+    "title": "VolunTree",
+    "worker": { "title": "ఫీల్డ్ వర్కర్" },
+    "volunteer": { "title": "వాలంటీర్" },
+    "coordinator": { "title": "NGO కోఆర్డినేటర్" }
+  },
+  "capture": {
+    "photo": "ఫోటో",
+    "voice": "వాయిస్ నోట్",
+    "categories": {
+      "water": "నీరు",
+      "food": "ఆహారం",
+      "medical": "వైద్యం",
+      "shelter": "ఆశ్రయం",
+      "safety": "భద్రత",
+      "other": "ఇతర"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "common": {
+    "back": "मागे",
+    "submit": "रिपोर्ट सबमिट करा",
+    "loading": "लोड होत आहे...",
+    "saveForSync": "सिंकसाठी सेव्ह करा",
+    "exitToHome": "होमवर परत जा",
+    "signIn": "साइन इन करा",
+    "signUp": "आता साइन अप करा",
+    "demoPin": "डेमो पिन: 1234"
+  },
+  "nav": {
+    "title": "VolunTree",
+    "signIn": "साइन इन करा"
+  },
+  "hero": {
+    "title": "मदत समन्वयित करा",
+    "getStarted": "सुरू करा"
+  },
+  "roles": {
+    "title": "VolunTree",
+    "worker": { "title": "क्षेत्र कार्यकर्ता" },
+    "volunteer": { "title": "स्वयंसेवक" },
+    "coordinator": { "title": "एनजीओ समन्वयक" }
+  },
+  "capture": {
+    "photo": "फोटो",
+    "voice": "व्हॉइस नोट",
+    "categories": {
+      "water": "पाणी",
+      "food": "अन्न",
+      "medical": "वैद्यकीय",
+      "shelter": "निवारा",
+      "safety": "सुरक्षा",
+      "other": "इतर"
+    }
+  }
+}

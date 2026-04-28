@@ -1,0 +1,34 @@
+{
+  "common": {
+    "back": "ਪਿੱਛੇ",
+    "submit": "ਰਿਪੋਰਟ ਜਮ੍ਹਾਂ ਕਰੋ",
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+    "saveForSync": "ਸਿੰਕ ਲਈ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "exitToHome": "ਹੋਮ 'ਤੇ ਵਾਪਸ ਜਾਓ",
+    "signIn": "ਸਾਈਨ ਇਨ ਕਰੋ",
+    "signUp": "ਹੁਣੇ ਸਾਈਨ ਅਪ ਕਰੋ",
+    "demoPin": "ਡੈਮੋ ਪਿੰਨ: 1234"
+  },
+  "nav": {
+    "title": "VolunTree",
+    "signIn": "ਸਾਈਨ ਇਨ ਕਰੋ"
+  },
+  "roles": {
+    "title": "VolunTree",
+    "worker": { "title": "ਫੀਲਡ ਵਰਕਰ" },
+    "volunteer": { "title": "ਵਲੰਟੀਅਰ" },
+    "coordinator": { "title": "NGO ਕੋਆਰਡੀਨੇਟਰ" }
+  },
+  "capture": {
+    "photo": "ਫੋਟੋ",
+    "voice": "ਵੌਇਸ ਨੋਟ",
+    "categories": {
+      "water": "ਪਾਣੀ",
+      "food": "ਭੋਜਨ",
+      "medical": "ਮੈਡੀਕਲ",
+      "shelter": "ਸ਼ੈਲਟਰ",
+      "safety": "ਸੁਰੱਖਿਆ",
+      "other": "ਹੋਰ"
+    }
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "common": {
+    "back": "Back",
+    "submit": "Submit Report",
+    "loading": "Loading...",
+    "saveForSync": "Save for Sync",
+    "exitToHome": "Exit to Home",
+    "signIn": "Sign In",
+    "signUp": "Sign Up Now",
+    "demoPin": "Demo PIN: 1234"
+  },
+  "nav": {
+    "title": "VolunTree",
+    "signIn": "Sign In",
+    "search_placeholder": "Search villages, issues, or volunteers..."
+  },
+  "hero": {
+    "newIntegration": "NEW: GEMINI 2.5 INTEGRATION",
+    "title": "Coordinate Help",
+    "titleHighlight": "When it Matters.",
+    "subtitle": "VolunTree converts chaotic field data into a live, AI-structured need map and surfaces the best volunteer match — in seconds.",
+    "getStarted": "Get Started",
+    "watchDemo": "Watch Demo"
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Designed for high-impact community coordination.",
+    "multimodal": {
+      "title": "Multimodal Intake",
+      "desc": "Submit reports via voice, photos, or text. Our AI handles the mess."
+    },
+    "urgency": {
+      "title": "Urgency Scoring",
+      "desc": "Gemini-powered analysis ranks issues by human impact and severity."
+    },
+    "matching": {
+      "title": "Smart Matching",
+      "desc": "Match the best volunteer for every task based on skill and location."
+    },
+    "offline": {
+      "title": "Offline-First",
+      "desc": "Works in remote villages with zero connectivity. Syncs when ready."
+    }
+  },
+  "roles": {
+    "title": "VolunTree",
+    "subtitle": "Bridging community needs with collective action.",
+    "footer": "© 2026 VolunTree · Community Intelligence Platform",
+    "worker": {
+      "title": "Field Worker",
+      "desc": "Report community needs & environmental issues"
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "desc": "Discover nearby tasks and contribute locally"
+    },
+    "coordinator": {
+      "title": "NGO Coordinator",
+      "desc": "Analyze AI-driven need maps & dispatch help"
+    }
+  },
+  "slides": {
+    "villages": {
+      "title": "Empowering Villages",
+      "desc": "VolunTree has connected over 500 villages with essential water and medical supplies in just 3 months.",
+      "tag": "Community Success"
+    },
+    "intelligence": {
+      "title": "Real-time Intelligence",
+      "desc": "NGO coordinators now see a live heat-map of community needs, reducing response time by 70%.",
+      "tag": "Innovation"
+    },
+    "voice": {
+      "title": "Voice for the Voiceless",
+      "desc": "Our AI understands local dialects, allowing field workers to report issues naturally via voice notes.",
+      "tag": "Technology"
+    }
+  },
+  "pin": {
+    "title": "Secure Access",
+    "subtitle": "Enter PIN for",
+    "error": "Invalid PIN"
+  },
+  "capture": {
+    "noConnectivity": "NO CONNECTIVITY — REPORTS WILL BE QUEUED",
+    "updated": "Updated {{time}} ago",
+    "queued": "{{count}} QUEUED",
+    "liveGps": "LIVE GPS",
+    "photo": "Photo",
+    "voice": "Voice Note",
+    "category": "Category",
+    "selectOne": "Select one",
+    "optimizing": "Optimizing Image...",
+    "remove": "Remove",
+    "retake": "Retake",
+    "categories": {
+      "water": "Water",
+      "food": "Food",
+      "medical": "Medical",
+      "shelter": "Shelter",
+      "safety": "Safety",
+      "other": "Other"
+    }
+  },
+  "dashboards": {
+    "coordinator": {
+      "title": "Coordinator Dashboard",
+      "activeTasks": "Active Tasks",
+      "impact": "Impact Score",
+      "recentReports": "Recent Reports"
+    },
+    "volunteer": {
+      "title": "Volunteer Portal",
+      "tasksForYou": "Tasks For You",
+      "nearby": "Nearby: {{location}}",
+      "contributions": "My Contributions"
+    }
+  },
+  "history": {
+    "title": "Submission History",
+    "synced": "Synced",
+    "queued": "Queued",
+    "failed": "Failed"
+  },
+  "analytics": {
+    "title": "Impact Analytics",
+    "loading": "Analyzing Field Impact...",
+    "total_needs": "Total Needs",
+    "avg_urgency": "Avg Urgency",
+    "active_volunteers": "Active Volunteers",
+    "resolution_rate": "Resolution Rate",
+    "issue_distribution": "Issue Distribution",
+    "live_insights": "Live Insights",
+    "cases_suffix": "cases",
+    "case_status": "Case Status",
+    "resolved_label": "RESOLVED",
+    "status_pending": "Pending",
+    "status_assigned": "Assigned",
+    "status_resolved": "Resolved",
+    "realtime": "Real-time community needs distribution"
+  },
+  "ai": {
+    "reportTitle": "AI INTELLIGENCE REPORT"
+  },
+  "cta": {
+    "title": "Join the Network",
+    "desc": "Help us build a more resilient future. Whether you're an NGO or an individual volunteer, there's a place for you.",
+    "signUp": "Sign Up Now",
+    "verified": "Verified NGO Data",
+    "panIndia": "Pan-India Support",
+    "ethical": "AI Ethical Guardrails"
+  },
+  "footer": {
+    "copy": "© 2026 VolunTree · Built for Community Resilience"
+  }
+}

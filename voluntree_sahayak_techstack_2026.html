@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VolunTree — Complete 2026 Tech Stack</title>
+<style>
+  :root {
+    --green-50: #EAF3DE; --green-100: #C0DD97; --green-400: #639922; --green-600: #3B6D11; --green-800: #27500A;
+    --teal-50: #E1F5EE; --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
+    --blue-50: #E6F1FB; --blue-400: #378ADD; --blue-600: #185FA5; --blue-800: #0C447C;
+    --amber-50: #FAEEDA; --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+    --purple-50: #EEEDFE; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489;
+    --coral-50: #FAECE7; --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441;
+    --red-50: #FCEBEB; --red-400: #E24B4A; --red-600: #A32D2D; --red-800: #791F1F;
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --border: rgba(0,0,0,0.1);
+    --text: #1A1A18;
+    --text-muted: #5F5E5A;
+    --text-faint: #888780;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2rem 1rem 4rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  /* ── header ── */
+  .doc-header {
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .doc-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .doc-sub { font-size: 13px; color: var(--text-muted); }
+  .doc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+  /* ── pills / badges ── */
+  .pill {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px; letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .pg { background: var(--green-50); color: var(--green-800); }
+  .pt { background: var(--teal-50); color: var(--teal-800); }
+  .pb { background: var(--blue-50); color: var(--blue-800); }
+  .pa { background: var(--amber-50); color: var(--amber-800); }
+  .pp { background: var(--purple-50); color: var(--purple-800); }
+  .pc { background: var(--coral-50); color: var(--coral-800); }
+  .pgr { background: var(--gray-50); color: var(--gray-800); }
+  .pr { background: var(--red-50); color: var(--red-800); }
+
+  /* ── section headers ── */
+  .sec-hdr {
+    display: flex; align-items: center; gap: 10px;
+    margin: 2rem 0 .75rem;
+    padding-bottom: .5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .sec-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .sec-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .sec-note { font-size: 11px; color: var(--text-faint); margin-left: auto; }
+
+  /* ── layer cards ── */
+  .layer-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .svc-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: .85rem 1rem;
+  }
+  .svc-card.recommended { border-left: 3px solid var(--teal-400); border-radius: 0 var(--radius) var(--radius) 0; }
+  .svc-card.caution { border-left: 3px solid var(--amber-400); border-radius: 0 var(--radius) var(--radius) 0; }
+  .svc-card.drop { border-left: 3px solid var(--red-400); border-radius: 0 var(--radius) var(--radius) 0; }
+
+  .svc-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 5px; }
+  .svc-name { font-size: 13px; font-weight: 600; color: var(--text); min-width: 0; }
+  .svc-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-left: auto; flex-shrink: 0; }
+  .svc-why { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+  .svc-cost { font-size: 11px; color: var(--green-600); font-weight: 500; margin-top: 4px; }
+
+  /* ── flow diagram ── */
+  .flow-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: .75rem;
+  }
+  .flow-label { font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 4px; }
+  .flow-pipeline {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    line-height: 2;
+    background: var(--gray-50);
+    border-radius: var(--radius-sm);
+    padding: .75rem 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .flow-arr { color: var(--text-faint); }
+
+  /* ── AI model table ── */
+  .model-grid { display: grid; gap: 8px; }
+  .model-row {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    display: grid;
+    grid-template-columns: 175px 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .model-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .model-role { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .model-tier { font-size: 10px; font-weight: 600; }
+
+  /* ── cost table ── */
+  .cost-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .cost-table th { text-align: left; font-weight: 600; padding: 7px 10px; background: var(--gray-50); color: var(--text-muted); font-size: 11px; letter-spacing: .03em; }
+  .cost-table td { padding: 7px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); }
+  .cost-table tr:last-child td { border-bottom: none; }
+  .cost-free { color: var(--green-600); font-weight: 600; }
+  .cost-paid { color: var(--amber-600); font-weight: 600; }
+
+  /* ── callout ── */
+  .callout {
+    border-radius: var(--radius);
+    padding: .85rem 1rem;
+    margin: .75rem 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .callout-green { background: var(--green-50); color: var(--green-800); }
+  .callout-amber { background: var(--amber-50); color: var(--amber-800); }
+  .callout-blue { background: var(--blue-50); color: var(--blue-800); }
+  .callout strong { font-weight: 600; }
+
+  /* ── two-col ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } .model-row { grid-template-columns: 1fr; } }
+
+  /* ── architecture flow ── */
+  .arch-step {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: .7rem 0; border-bottom: 0.5px solid var(--border);
+  }
+  .arch-step:last-child { border-bottom: none; }
+  .arch-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--teal-50); color: var(--teal-800);
+    font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .arch-body { flex: 1; }
+  .arch-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .arch-detail { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .arch-services { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+
+  .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); }
+  .table-wrap table { width: 100%; }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-title">VolunTree — Complete 2026 Tech Stack</div>
+  <div class="doc-sub">Derived from VolunTree Frontend Design Doc v1.0 + Sahayak 4-Day Winning Plan · Google Solutions Challenge</div>
+  <div class="doc-meta">
+    <span class="pill pt">Google-first</span>
+    <span class="pill pg">Free-tier maximized</span>
+    <span class="pill pb">Flutter + Firebase</span>
+    <span class="pill pp">Gemini 2.5 Pro</span>
+    <span class="pill pa">Offline-first</span>
+    <span class="pill pc">Rural India</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ ARCHITECTURE FLOW ════════════════════════════════════ -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--teal-400);"></div>
+  <span class="sec-title">End-to-end architecture flow</span>
+</div>
+
+<div class="svc-card" style="margin-bottom:12px;">
+  <div class="arch-step">
+    <div class="arch-num">1</div>
+    <div class="arch-body">
+      <div class="arch-title">Field data capture</div>
+      <div class="arch-detail">Field worker: photograph paper survey, record Hindi voice note, or select issue type icon in Flutter app. GPS auto-tagged. App is fully offline — data written to Hive local store first.</div>
+      <div class="arch-services"><span class="pill pp">Flutter Android</span><span class="pill pp">Hive offline store</span><span class="pill pp">geolocator</span><span class="pill pp">camera / record pkg</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">2</div>
+    <div class="arch-body">
+      <div class="arch-title">Intake — dual channel</div>
+      <div class="arch-detail">Channel A: Flutter app uploads photo + audio to Cloud Storage on reconnect, writes metadata to Firestore → triggers Cloud Function. Channel B: WhatsApp/Meta webhook (Twilio sandbox or Meta Cloud API) → Cloud Function Gen 2 → Pub/Sub "raw-reports" topic.</div>
+      <div class="arch-services"><span class="pill pt">Cloud Storage</span><span class="pill pt">Firestore triggers</span><span class="pill pt">Cloud Functions Gen 2</span><span class="pill pa">Twilio / Meta Webhook</span><span class="pill pt">Pub/Sub</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">3</div>
+    <div class="arch-body">
+      <div class="arch-title">Speech + vision processing</div>
+      <div class="arch-detail">Audio → Cloud Speech-to-Text v2 (Chirp) streaming/batch → transcript. Image (clear form) → Document AI Form Parser → key-value JSON. Image (freeform/handwritten) → Gemini 2.5 Pro Vision → structured extraction. Route decision made by content-type header.</div>
+      <div class="arch-services"><span class="pill pp">Speech-to-Text v2 Chirp</span><span class="pill pt">Document AI Form Parser</span><span class="pill pp">Gemini 2.5 Pro Vision</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">4</div>
+    <div class="arch-body">
+      <div class="arch-title">LLM extraction + structuring (LangChain optional)</div>
+      <div class="arch-detail">Transcript or OCR text → Gemini 2.5 Flash with schema-constrained JSON prompt → {location, need_type, severity, beneficiary_count, language, urgency_notes}. LangChain LCEL chain (optional): input routing → extraction chain → validation chain → retry on schema failure. Confirmation message sent back via WhatsApp.</div>
+      <div class="arch-services"><span class="pill pp">Gemini 2.5 Flash</span><span class="pill pb">LangChain LCEL (optional)</span><span class="pill pt">Cloud Functions</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">5</div>
+    <div class="arch-body">
+      <div class="arch-title">Urgency scoring + embedding</div>
+      <div class="arch-detail">Rule engine: need_type × severity × repetition_count × beneficiary_count → 0–100 score. Parallel: Vertex AI text-embedding-004 embeds need description. Embeddings stored in Firestore vector field (or Vertex AI Vector Search / Pinecone for Phase 2 scale). Burst anomaly: Pub/Sub message count spike → alert.</div>
+      <div class="arch-services"><span class="pill pt">Vertex AI Embeddings</span><span class="pill pt">Firestore vector</span><span class="pill pb">Pinecone (Phase 2)</span><span class="pill pt">Vertex Matching Engine (alt)</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">6</div>
+    <div class="arch-body">
+      <div class="arch-title">Volunteer matching + AI explanation</div>
+      <div class="arch-detail">Cloud Run matching service: filter by skill keyword + Haversine radius + availability window → cosine similarity rank on embeddings → top 3. Gemini Flash generates 1-sentence human-readable reason per match (e.g. "Rajan: plumber, 2.1 km, available today, 89% completion rate"). Coordinator sees suggested list — never auto-assigned.</div>
+      <div class="arch-services"><span class="pill pt">Cloud Run (Python FastAPI)</span><span class="pill pp">Gemini 2.5 Flash</span><span class="pill pt">Vertex AI Vector Search</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">7</div>
+    <div class="arch-body">
+      <div class="arch-title">Dashboard + coordinator approval</div>
+      <div class="arch-detail">Flutter Web coordinator dashboard: real-time Firestore listener updates live map (urgency-colored pulsing pins), urgency queue, AI summary card with ✦ label and editable fields. Coordinator approves assignment with one tap. AI summary shown with confidence score; if &lt;70% → "⚠ verify manually" badge (per VolunTree spec).</div>
+      <div class="arch-services"><span class="pill pp">Flutter Web</span><span class="pill pt">Firestore real-time</span><span class="pill pt">Google Maps SDK</span></div>
+    </div>
+  </div>
+  <div class="arch-step">
+    <div class="arch-num">8</div>
+    <div class="arch-body">
+      <div class="arch-title">Volunteer dispatch + feedback loop</div>
+      <div class="arch-detail">On coordinator approval → FCM push to volunteer app (free, primary). WhatsApp template message as fallback for volunteers without app. Volunteer accepts/declines/completes → status written to Firestore → dashboard updates live. Completion data flows to BigQuery (Phase 2) for model retraining.</div>
+      <div class="arch-services"><span class="pill pt">Firebase Cloud Messaging</span><span class="pill pa">Twilio WhatsApp (fallback)</span><span class="pill pt">BigQuery (Phase 2)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ STACK BY LAYER ════════════════════════════════════ -->
+
+<!-- FRONTEND -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--purple-400);"></div>
+  <span class="sec-title">Frontend</span>
+  <span class="sec-note">Flutter 3.x · Android + Web · single codebase</span>
+</div>
+<div class="layer-grid">
+  <div class="svc-card recommended">
+    <div class="svc-top">
+      <div class="svc-name">Flutter 3.x (Dart)</div>
+      <div class="svc-tags"><span class="pill pp">Primary</span><span class="pill pg">Free</span></div>
+    </div>
+    <div class="svc-why">Single codebase for Android field app (1.5GB RAM / Android 8+ target per VolunTree spec) and Flutter Web coordinator dashboard. Riverpod 2.4 state management, offline Hive boxes, workmanager background sync — all specified in VolunTree's package list. No alternative delivers offline-first + Web + Android in one codebase this efficiently.</div>
+    <div class="svc-cost">Free · Google-maintained · GCP CI/CD native</div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Noto Sans + Poppins</div><div class="svc-tags"><span class="pill pgr">Typography</span></div></div>
+      <div class="svc-why">Noto Sans: full Devanagari, Tamil, Telugu, Kannada, Punjabi rendering — mandatory for VolunTree's 6 Indian languages. Poppins for display headers. Both via Google Fonts CDN, pre-load in pubspec.yaml to avoid FOUT on 2G.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">flutter_map + OpenStreetMap</div><div class="svc-tags"><span class="pill pa">Maps (mobile)</span></div></div>
+      <div class="svc-why">flutter_map with cached OSM tiles for field worker Android app — works fully offline, zero cost. Google Maps SDK only for coordinator Web dashboard where heatmap layers and Places API needed. Matches VolunTree spec exactly.</div>
+    </div>
+  </div>
+  <div class="svc-card">
+    <div class="svc-top"><div class="svc-name">Key Flutter packages (from VolunTree spec)</div><div class="svc-tags"><span class="pill pp">pubspec.yaml</span></div></div>
+    <div class="svc-why">flutter_riverpod ^2.4 · hive_flutter ^1.1 · camera ^0.10 · record ^5.0 · speech_to_text ^6.3 (on-device ASR for live waveform feedback only — server-side uses Chirp) · connectivity_plus ^5.0 · geolocator ^10.1 · flutter_map ^6.1 · workmanager ^0.5 · local_auth ^2.1 · dio ^5.4</div>
+  </div>
+</div>
+
+<!-- BACKEND -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--teal-400);"></div>
+  <span class="sec-title">Backend + event pipeline</span>
+  <span class="sec-note">Serverless · event-driven · scales to zero</span>
+</div>
+<div class="layer-grid">
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Cloud Functions Gen 2 (Node.js 20 / Python 3.12)</div><div class="svc-tags"><span class="pill pt">Webhooks + triggers</span><span class="pill pg">2M req/month free</span></div></div>
+    <div class="svc-why">Webhook receiver for Twilio/Meta WhatsApp inbound. Firestore onCreate trigger fires extraction pipeline. Gen 2 (Cloud Run-backed) gives 60-min timeout — critical for large audio files on slow 2G connections. Gen 1's 9-min limit would cause silent failures on rural uploads.</div>
+    <div class="svc-cost">2M invocations/month free · Gen 2 scales to 1000 instances</div>
+  </div>
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Cloud Pub/Sub</div><div class="svc-tags"><span class="pill pt">Event bus</span><span class="pill pg">10GB/month free</span></div></div>
+    <div class="svc-why">Decouples WhatsApp webhook from AI processing. Webhook publishes to "raw-reports" → subscriber function calls Gemini. Essential for disaster-event burst tolerance — 500 simultaneous flood reports won't crash the extraction pipeline. Dead-letter topic catches and retries failures.</div>
+    <div class="svc-cost">10GB messages/month free · at-least-once delivery guaranteed</div>
+  </div>
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Cloud Run (Python FastAPI)</div><div class="svc-tags"><span class="pill pt">Matching engine</span><span class="pill pg">2M req/month free</span></div></div>
+    <div class="svc-why">Volunteer matching is CPU-bound with Vertex embedding queries — needs more control and memory than Cloud Functions. FastAPI container deployed to Cloud Run. Scales to zero between calls. Called by Cloud Function after report is structured and scored.</div>
+    <div class="svc-cost">180,000 vCPU-seconds/month free · cold start ~400ms acceptable for non-realtime matching</div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Twilio WhatsApp API</div><div class="svc-tags"><span class="pill pa">Intake (sandbox)</span></div></div>
+      <div class="svc-why">Inbound only — field workers send photos/voice. Sandbox free for demo. Production: switch to Meta Cloud API (free up to 1K conversations/month) to eliminate per-message cost.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Meta WhatsApp Cloud API</div><div class="svc-tags"><span class="pill pa">Intake (production alt)</span></div></div>
+      <div class="svc-why">Free tier: 1,000 service conversations/month. No Twilio markup. Same webhook format — just a URL swap. Preferred for post-demo production deployment to eliminate per-message cost on inbound.</div>
+    </div>
+  </div>
+  <div class="svc-card caution">
+    <div class="svc-top"><div class="svc-name">LangChain LCEL (optional)</div><div class="svc-tags"><span class="pill pb">Chain orchestration</span><span class="pill pg">Open-source</span></div></div>
+    <div class="svc-why">Use for multi-step Gemini workflows: input router → STT transcript cleaner → extraction chain → JSON schema validator → retry on failure → explanation generator. Adds retry logic, streaming, and structured output parsing cleanly. Optional — three direct Gemini API calls work fine for MVP without it. Use if chain complexity grows beyond 3 steps.</div>
+    <div class="svc-cost">Open-source · Apache 2.0 · no additional cost · add langchain-google-vertexai package</div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--amber-400);"></div>
+  <span class="sec-title">Auth</span>
+  <span class="sec-note">No email. No password. Rural-first.</span>
+</div>
+<div class="layer-grid">
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Firebase Auth — Phone OTP</div><div class="svc-tags"><span class="pill pa">Primary auth</span><span class="pill pg">Free</span></div></div>
+    <div class="svc-why">VolunTree spec explicitly rejects email/password. Coordinator pre-assigns phone numbers; field workers get OTP on their existing SIM — zero typing of usernames. 4-digit PIN stored locally in Hive with bcrypt hash. Biometric (local_auth) unlocks without re-auth. Session preserved 1 hour if backgrounded (per VolunTree spec).</div>
+    <div class="svc-cost">10K phone verifications/month free · India SMS OTP delivery ~98% reliable</div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Firebase App Check</div><div class="svc-tags"><span class="pill pa">API abuse prevention</span></div></div>
+      <div class="svc-why">Attests requests come from genuine VolunTree APK. Prevents unauthorized callers from burning Gemini API quota. Must be enabled before any public launch — a single script can exhaust free tier in minutes without it.</div>
+      <div class="svc-cost">Free · mandatory pre-launch</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Firestore Security Rules</div><div class="svc-tags"><span class="pill pa">Data authorization</span></div></div>
+      <div class="svc-why">Role-based: field_worker (write own reports), volunteer (read assigned tasks, write completion), coordinator (read all, write assignments), admin (full). NGO tenant isolation via tenant_id field — no cross-NGO data leakage.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DATABASE -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--green-400);"></div>
+  <span class="sec-title">Database</span>
+  <span class="sec-note">Offline-first · real-time · analytics-ready</span>
+</div>
+<div class="layer-grid">
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Firestore (Native mode)</div><div class="svc-tags"><span class="pill pg">Operational DB</span><span class="pill pg">Free tier generous</span></div></div>
+    <div class="svc-why">Offline persistence SDK handles VolunTree's offline-first requirement automatically — queues writes locally, syncs on reconnect, zero extra code. Real-time listeners power coordinator dashboard live map. Supports vector field for embedding storage (Phase 1 matching). Collections: /reports · /volunteers · /assignments · /ngos · /urgency_scores.</div>
+    <div class="svc-cost">1GB storage + 50K reads + 20K writes/day free · scales to millions of docs</div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Hive (Flutter on-device)</div><div class="svc-tags"><span class="pill pg">Local store</span><span class="pill pg">Free</span></div></div>
+      <div class="svc-why">VolunTree spec explicitly defines Hive boxes: pendingReports (ReportModel: id, issueType, imagePath, audioPath, lat/lng, createdAt, SyncStatus, retryCount) + userPrefs + cachedCases. Survives app kill. workmanager uploads on background reconnect.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Cloud Storage (GCS)</div><div class="svc-tags"><span class="pill pg">Media store</span></div></div>
+      <div class="svc-why">Survey photos (auto-compressed 800px / ~200KB per VolunTree spec), voice .m4a files, PDF uploads. Signed URIs passed to Gemini Vision — never send raw bytes from mobile. Lifecycle rules auto-archive after 90 days.</div>
+      <div class="svc-cost">5GB/month free · lifecycle archival to Coldline reduces cost 80%</div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Vertex AI Vector Search</div><div class="svc-tags"><span class="pill pt">Embeddings (Phase 1)</span></div></div>
+      <div class="svc-why">Stores text-embedding-004 vectors for volunteer profiles and need descriptions. Sub-100ms ANN search for matching. GCP-native alternative to Pinecone — no external dependency, better latency, integrates directly with Vertex AI SDK.</div>
+      <div class="svc-cost">~$0.10/hr for small index · covers demo + early users well within budget</div>
+    </div>
+    <div class="svc-card caution">
+      <div class="svc-top"><div class="svc-name">Pinecone (Phase 2 alt)</div><div class="svc-tags"><span class="pill pb">Vector DB (alt)</span></div></div>
+      <div class="svc-why">Free tier: 1 index, 100K vectors, 5 projects. Useful if team is more comfortable with Pinecone's SDK than Vertex AI. Slight vendor lock-in and external dependency vs native Vertex. Prefer Vertex Matching Engine for GCP-first architecture.</div>
+      <div class="svc-cost">Free tier (1 pod, 100K vectors) · paid if scale demands it</div>
+    </div>
+  </div>
+  <div class="svc-card">
+    <div class="svc-top"><div class="svc-name">BigQuery (Phase 2)</div><div class="svc-tags"><span class="pill pg">Analytics warehouse</span><span class="pill pgr">Phase 2 only</span></div></div>
+    <div class="svc-why">Not in MVP. Add when you need: ML training datasets for XGBoost urgency model, district-level donor dashboards via Looker Studio, longitudinal need analysis, government reporting. Firestore → BigQuery streaming export via Firebase Extension (one click).</div>
+    <div class="svc-cost">10GB storage + 1TB queries/month free · Looker Studio free</div>
+  </div>
+</div>
+
+<!-- AI / ML LAYER -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--purple-400);"></div>
+  <span class="sec-title">AI / ML model map</span>
+  <span class="sec-note">Every model mapped to its exact role in the system</span>
+</div>
+
+<div class="model-grid">
+  <div class="model-row">
+    <div><div class="model-name">Gemini 2.5 Flash</div><span class="pill pt" style="font-size:9px;">PRIMARY LLM</span></div>
+    <div class="model-role">Core extraction call: OCR text / STT transcript → schema-constrained JSON. Also generates 1-sentence volunteer match explanation and auto donor report. 3 calls per report lifecycle. Flash not Pro — 5× cheaper, 3× faster, sufficient for single-report extraction.</div>
+    <div><span class="pill pg" style="font-size:9px;">Free tier via AI Studio</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Gemini 2.5 Pro Vision</div><span class="pill pp" style="font-size:9px;">VISION FALLBACK</span></div>
+    <div class="model-role">Complex handwriting, multi-page forms, poor-lighting photos where Flash confidence &lt;70%. Routes via Remote Config threshold. Pro's superior vision reasoning handles marginalia, mixed Hindi-English tables, blurry field photos better than any OCR-only solution.</div>
+    <div><span class="pill pa" style="font-size:9px;">Paid — use sparingly</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Gemini 2.5 Flash (translation)</div><span class="pill pp" style="font-size:9px;">MULTILINGUAL</span></div>
+    <div class="model-role">Translates AI summary card and volunteer task brief into coordinator's preferred language (6 Indian languages per VolunTree spec). Replaces Google Translate API — Gemini handles code-switching ("yahan paani nahi hai, need help fast") more naturally than pure translation APIs.</div>
+    <div><span class="pill pg" style="font-size:9px;">Included in Flash quota</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Document AI Form Parser</div><span class="pill pt" style="font-size:9px;">STRUCTURED FORMS</span></div>
+    <div class="model-role">Handles NGOs using standardized printed surveys with fixed field positions, checkboxes, and printed labels. Form Parser extracts key-value pairs from semi-structured forms more reliably and cheaply than a general LLM. Route: known template form → Document AI; freeform photo → Gemini Vision.</div>
+    <div><span class="pill pg" style="font-size:9px;">1K pages/month free</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Cloud Speech-to-Text v2 (Chirp)</div><span class="pill pp" style="font-size:9px;">VOICE PIPELINE</span></div>
+    <div class="model-role">Server-side: batch recognition for WhatsApp voice notes + streaming for live waveform feedback on Flutter capture screen. Chirp handles Hindi/Marathi/Tamil/Telugu code-switching and background noise (field conditions) far better than on-device speech_to_text package. On-device STT (Flutter pkg) still used for real-time waveform animation only.</div>
+    <div><span class="pill pg" style="font-size:9px;">60 min/month free</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Vertex AI text-embedding-004</div><span class="pill pt" style="font-size:9px;">EMBEDDINGS</span></div>
+    <div class="model-role">768-dimensional multilingual embeddings for volunteer skill profiles and need descriptions. Powers semantic matching (e.g. "nursing" matches "medical care" / "swasthya seva"). Stored in Vertex AI Vector Search. Weekly re-embedding batch job updates volunteer profiles as skills are updated.</div>
+    <div><span class="pill pg" style="font-size:9px;">Free in Vertex AI quota</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Gemma 3 (self-hosted)</div><span class="pill pgr" style="font-size:9px;">PHASE 2 OPTION</span></div>
+    <div class="model-role">Open-weight alternative for extraction pipeline if Gemini API costs grow at scale. Deploy Gemma 3 12B on Cloud Run GPU or Vertex AI endpoints. Can be fine-tuned on NGO-specific vocabulary (district names, scheme names, local issue terminology) for better accuracy than zero-shot Gemini Flash on niche inputs.</div>
+    <div><span class="pill pa" style="font-size:9px;">Vertex AI cost for serving</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Llama 3.1 (via Vertex Model Garden)</div><span class="pill pgr" style="font-size:9px;">PHASE 2 OPTION</span></div>
+    <div class="model-role">Available in Vertex AI Model Garden. Viable fallback if open-weight model needed for on-premise NGO deployment (data sovereignty requirement). Not needed for demo or Phase 1. Only consider if an NGO partner requires data to stay on their own infra.</div>
+    <div><span class="pill pa" style="font-size:9px;">Vertex serving cost</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Vertex AI AutoML / XGBoost</div><span class="pill pgr" style="font-size:9px;">PHASE 2 ML</span></div>
+    <div class="model-role">Train urgency classifier on manually-confirmed coordinator labels once 500+ cases exist. XGBoost on 8 tabular features (need_type, severity, beneficiary_count, repetition, location_density, time_since_last_report, weather_flag, population_vulnerability). Replaces rule engine with learned model. Vertex AI managed training + online endpoint.</div>
+    <div><span class="pill pgr" style="font-size:9px;">Phase 2 — needs labelled data</span></div>
+  </div>
+  <div class="model-row">
+    <div><div class="model-name">Google AI Studio</div><span class="pill pb" style="font-size:9px;">DEV TOOL</span></div>
+    <div class="model-role">Prototype and iterate Gemini extraction prompts before deploying to Cloud Functions. Test edge cases (blurry Hindi handwriting, Hinglish voice notes, mixed-language reports). Share prompt iterations with team. AI Studio → export to Vertex AI SDK when production-ready.</div>
+    <div><span class="pill pg" style="font-size:9px;">Free for development</span></div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--coral-400);"></div>
+  <span class="sec-title">Notifications + messaging</span>
+</div>
+<div class="two-col">
+  <div class="svc-card recommended">
+    <div class="svc-top"><div class="svc-name">Firebase Cloud Messaging</div><div class="svc-tags"><span class="pill pc">Volunteer dispatch</span><span class="pill pg">Free</span></div></div>
+    <div class="svc-why">All outbound volunteer dispatch via FCM — 100% free, no per-message cost unlike WhatsApp Business API. On coordinator approval → Cloud Function sends FCM to volunteer device with task brief + deep link. Works on battery-restricted Android background. Primary dispatch channel.</div>
+  </div>
+  <div class="svc-card">
+    <div class="svc-top"><div class="svc-name">Firebase Remote Config</div><div class="svc-tags"><span class="pill pt">Feature flags</span><span class="pill pg">Free</span></div></div>
+    <div class="svc-why">Update Gemini prompts, urgency thresholds, Flash/Pro routing threshold, and language rollout flags without app redeployment. Critical for fixing prompt regressions in production without a Play Store release cycle.</div>
+  </div>
+</div>
+
+<!-- DEPLOYMENT -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--gray-400);"></div>
+  <span class="sec-title">Deployment + DevOps</span>
+</div>
+<div class="layer-grid">
+  <div class="two-col">
+    <div class="svc-card recommended">
+      <div class="svc-top"><div class="svc-name">Firebase Hosting</div><div class="svc-tags"><span class="pill pg">Free</span></div></div>
+      <div class="svc-why">Flutter Web coordinator dashboard. firebase deploy — one command, free SSL, global CDN, zero config. Fits 4-day build timeline perfectly.</div>
+    </div>
+    <div class="svc-card recommended">
+      <div class="svc-top"><div class="svc-name">Cloud Build + Artifact Registry</div><div class="svc-tags"><span class="pill pgr">CI/CD</span></div></div>
+      <div class="svc-why">git push → Cloud Build → test → build Cloud Run Docker image → deploy. Artifact Registry stores images. 120 free build-minutes/day sufficient for team.</div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Secret Manager</div><div class="svc-tags"><span class="pill pgr">Secrets</span><span class="pill pg">Free tier</span></div></div>
+      <div class="svc-why">Twilio SID/token, Gemini API key, per-NGO tenant secrets. Cloud Functions access via IAM — never in environment variables or code. 6 active secret versions free.</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-top"><div class="svc-name">Cloud Monitoring + Error Reporting</div><div class="svc-tags"><span class="pill pgr">Observability</span></div></div>
+      <div class="svc-why">Alert on Gemini failure rate, Pub/Sub dead-letter queue depth, Cloud Run p95 latency. Error Reporting surfaces Flutter app crashes by screen. Cost alerts prevent runaway API bills on Gemini Pro.</div>
+    </div>
+  </div>
+  <div class="svc-card">
+    <div class="svc-top"><div class="svc-name">Apps Script → Cloud Functions migration path</div><div class="svc-tags"><span class="pill pa">NGO onboarding bridge</span></div></div>
+    <div class="svc-why">NGOs already managing data in Google Sheets can use a lightweight Apps Script that fires on sheet edit → POST to Cloud Function endpoint → report enters Sahayak pipeline. Zero new tool adoption for those NGOs. Migration path: Apps Script (immediate adoption) → native Flutter app upload (when trust established). One doFetch() call in Apps Script is the entire integration.</div>
+    <div class="svc-cost">Free · Apps Script quota: 6min execution, 20K URL fetch calls/day — sufficient for NGO scale</div>
+  </div>
+</div>
+
+<!-- COST TABLE -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--green-400);"></div>
+  <span class="sec-title">Cost / performance optimization summary</span>
+</div>
+<div class="table-wrap">
+  <table class="cost-table">
+    <thead>
+      <tr><th>Service</th><th>Free tier</th><th>Optimization</th><th>Cost tier</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Gemini 2.5 Flash</td><td>15 RPM, 1M tokens/day via AI Studio</td><td>Use Flash for all extraction; Pro Vision only on confidence &lt;70%</td><td class="cost-free">Free (demo)</td></tr>
+      <tr><td>Cloud Functions Gen 2</td><td>2M invocations/month</td><td>Min instances = 0; cold start acceptable for async pipeline</td><td class="cost-free">Free</td></tr>
+      <tr><td>Firestore</td><td>50K reads, 20K writes/day, 1GB</td><td>Batch writes; avoid per-keystroke listeners; use snapshots</td><td class="cost-free">Free (MVP)</td></tr>
+      <tr><td>Cloud Storage</td><td>5GB/month</td><td>Compress images to 200KB client-side before upload; lifecycle to Coldline after 90d</td><td class="cost-free">Free (MVP)</td></tr>
+      <tr><td>Speech-to-Text v2</td><td>60 min/month free</td><td>Cache transcripts; deduplicate repeated audio; use batch not streaming for WhatsApp notes</td><td class="cost-free">Free (demo)</td></tr>
+      <tr><td>Document AI Form Parser</td><td>1K pages/month free</td><td>Route printed forms only; freeform → Gemini Vision (cheaper per call)</td><td class="cost-free">Free (MVP)</td></tr>
+      <tr><td>Firebase Auth (phone)</td><td>10K/month</td><td>Cache auth tokens 1hr (per VolunTree spec); avoid re-auth on resume</td><td class="cost-free">Free</td></tr>
+      <tr><td>FCM</td><td>Unlimited</td><td>No optimization needed — always free</td><td class="cost-free">Always free</td></tr>
+      <tr><td>Cloud Run (matching)</td><td>180K vCPU-sec/month</td><td>Scale to zero; keep request timeout &lt;10s with pre-loaded embedding index</td><td class="cost-free">Free (MVP)</td></tr>
+      <tr><td>Vertex AI Vector Search</td><td>No free tier</td><td>Use Firestore vector field (free) for MVP (&lt;10K volunteers). Switch to Vertex AI Vector Search when &gt;10K vectors</td><td class="cost-paid">~$0.10/hr (Phase 2)</td></tr>
+      <tr><td>Twilio WhatsApp</td><td>Sandbox free (demo)</td><td>Inbound only via Twilio; switch to Meta Cloud API free tier for production inbound</td><td class="cost-paid">Pay-as-go (production)</td></tr>
+      <tr><td>Gemini 2.5 Pro Vision</td><td>Limited via AI Studio</td><td>Strictly fallback path; Remote Config threshold controls routing to minimize Pro calls</td><td class="cost-paid">Paid per image (keep &lt;5% of calls)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout callout-green" style="margin-top:12px;">
+  <strong>Total demo cost: ₹0.</strong> Every service used in the 4-day demo and initial pitch falls within free tiers. First cost appears at production scale with Vertex AI Vector Search (&gt;10K volunteer profiles) and Gemini Pro Vision (complex handwriting edge cases).
+</div>
+
+<!-- KEY PIPELINE SUMMARY -->
+<div class="sec-hdr">
+  <div class="sec-dot" style="background:var(--blue-400);"></div>
+  <span class="sec-title">Key pipelines summary</span>
+</div>
+<div class="layer-grid">
+  <div class="svc-card">
+    <div class="flow-label">Voice intake pipeline</div>
+    <div class="flow-pipeline">WhatsApp voice note <span class="flow-arr">→</span> Twilio webhook <span class="flow-arr">→</span> Cloud Function <span class="flow-arr">→</span> Pub/Sub "raw-reports" <span class="flow-arr">→</span> Chirp STT (batch) <span class="flow-arr">→</span> Gemini 2.5 Flash extraction <span class="flow-arr">→</span> JSON validation <span class="flow-arr">→</span> Firestore write <span class="flow-arr">→</span> WhatsApp confirmation reply</div>
+  </div>
+  <div class="svc-card">
+    <div class="flow-label">Image intake pipeline</div>
+    <div class="flow-pipeline">Photo <span class="flow-arr">→</span> Cloud Storage upload <span class="flow-arr">→</span> GCS URI <span class="flow-arr">→</span> [if known form template] Document AI Form Parser <span class="flow-arr">→</span> [else] Gemini 2.5 Flash Vision → [if confidence &lt;70%] Gemini 2.5 Pro Vision <span class="flow-arr">→</span> structured JSON <span class="flow-arr">→</span> Firestore</div>
+  </div>
+  <div class="svc-card">
+    <div class="flow-label">Volunteer matching pipeline</div>
+    <div class="flow-pipeline">New Firestore report <span class="flow-arr">→</span> Cloud Function trigger <span class="flow-arr">→</span> urgency rule engine (score 0–100) <span class="flow-arr">→</span> Vertex text-embedding-004 (need description) <span class="flow-arr">→</span> Cloud Run: filter (radius + skill + availability) + cosine similarity rank <span class="flow-arr">→</span> top 3 volunteers <span class="flow-arr">→</span> Gemini Flash explanation cards <span class="flow-arr">→</span> Firestore suggestions field</div>
+  </div>
+  <div class="svc-card">
+    <div class="flow-label">Coordinator approval → dispatch pipeline</div>
+    <div class="flow-pipeline">Coordinator taps "Assign" (Flutter Web) <span class="flow-arr">→</span> Firestore write (assignment status) <span class="flow-arr">→</span> Cloud Function trigger <span class="flow-arr">→</span> FCM push to volunteer app (primary) <span class="flow-arr">→</span> WhatsApp template fallback (if no app) <span class="flow-arr">→</span> Volunteer accepts <span class="flow-arr">→</span> Firestore status update <span class="flow-arr">→</span> Dashboard live update via Firestore listener</div>
+  </div>
+  <div class="svc-card">
+    <div class="flow-label">Apps Script → Sahayak bridge (NGO onboarding)</div>
+    <div class="flow-pipeline">NGO Google Sheet row added <span class="flow-arr">→</span> Apps Script onEdit trigger <span class="flow-arr">→</span> UrlFetchApp.fetch(cloudFunctionURL, payload) <span class="flow-arr">→</span> Cloud Function receives structured row <span class="flow-arr">→</span> skips STT/OCR (already structured) <span class="flow-arr">→</span> urgency scoring + matching pipeline as normal</div>
+  </div>
+  <div class="svc-card">
+    <div class="flow-label">Offline sync pipeline (Flutter field app)</div>
+    <div class="flow-pipeline">Capture (offline) <span class="flow-arr">→</span> Hive local write (ReportModel + imagePath + audioPath) <span class="flow-arr">→</span> connectivityProvider detects 2G+ <span class="flow-arr">→</span> workmanager background task <span class="flow-arr">→</span> Cloud Storage upload (photo/audio) <span class="flow-arr">→</span> Firestore write (metadata) <span class="flow-arr">→</span> Hive status = synced <span class="flow-arr">→</span> UI queue card: ✓ checkmark animation</div>
+  </div>
+</div>
+
+<div class="callout callout-blue" style="margin-top:12px;">
+  <strong>GCP-native vs Pinecone decision:</strong> Use Firestore vector field (free, built-in) for MVP with &lt;10K volunteer profiles. Move to Vertex AI Vector Search when volunteer count grows — it's GCP-native, no external dependency, sub-100ms ANN search. Pinecone is viable if the team has prior experience with it, but introduces vendor lock-in and an additional paid dependency with no GCP-native advantage.
+</div>
+
+<div class="callout callout-amber" style="margin-top:8px;">
+  <strong>LangChain decision:</strong> 3 direct Gemini API calls (extract → explain → translate) work fine for MVP without LangChain. Add LangChain LCEL if: chain has 4+ steps, you need structured retry logic on schema failures, or you want streaming output to the Flutter UI. The langchain-google-vertexai integration is stable and adds minimal overhead.
+</div>
+
+</body>
+</html>

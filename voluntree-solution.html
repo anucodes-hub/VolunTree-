@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VolunTree — Google Solutions Challenge 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --sage: #4a7c59;
+    --sage-light: #6dab7e;
+    --saffron: #e8872b;
+    --rust: #c94f2c;
+    --mist: #e2ddd4;
+    --accent: #1a3d2b;
+    --gold: #c9a227;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--accent);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(109,171,126,0.25) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 20%, rgba(232,135,43,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-text {
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(109,171,126,0.2);
+    border: 1px solid rgba(109,171,126,0.4);
+    color: var(--sage-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+  .badge::before { content: '◆'; font-size: 8px; }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  h1 span { color: var(--sage-light); }
+  .hero-tagline {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-desc {
+    font-size: 17px;
+    color: rgba(245,240,232,0.8);
+    max-width: 460px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    background: rgba(245,240,232,0.08);
+    border: 1px solid rgba(245,240,232,0.15);
+    color: rgba(245,240,232,0.75);
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .tree-svg { width: 280px; height: 280px; opacity: 0.85; }
+
+  /* NAV */
+  .toc {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 18px 60px;
+    display: flex;
+    gap: 32px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a {
+    color: rgba(245,240,232,0.55);
+    text-decoration: none;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--sage-light); }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 32px;
+    color: var(--accent);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 16px; color: #3a3a3a; }
+
+  /* DIVIDER */
+  .rule { border: none; border-top: 1px solid var(--mist); margin: 0; }
+
+  /* CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--mist);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: 0 8px 32px rgba(26,61,43,0.1); transform: translateY(-2px); }
+  .card-icon {
+    width: 42px; height: 42px;
+    background: var(--sage);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .card-tag {
+    position: absolute; top: 20px; right: 20px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .tag-mvp { background: #e8f5ec; color: var(--sage); }
+  .tag-phase2 { background: #fff3e0; color: var(--saffron); }
+  .tag-future { background: #fce4ec; color: var(--rust); }
+
+  /* STEP BLOCKS */
+  .step-list { display: flex; flex-direction: column; gap: 2px; }
+  .step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--mist);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--mist);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  /* DAY BLOCKS */
+  .day-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .day-block {
+    border-radius: 12px;
+    padding: 24px 20px;
+    border: 1px solid;
+  }
+  .day-1 { background: #f0f7f2; border-color: #b2d8bc; }
+  .day-2 { background: #fff8f0; border-color: #f5d0a0; }
+  .day-3 { background: #fff0ee; border-color: #f0b8b0; }
+  .day-4 { background: #f0f4ff; border-color: #b8c8f0; }
+  .day-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .day-1 .day-label { color: var(--sage); }
+  .day-2 .day-label { color: var(--saffron); }
+  .day-3 .day-label { color: var(--rust); }
+  .day-4 .day-label { color: #3a5fa0; }
+  .day-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--accent); }
+  .day-tasks { list-style: none; }
+  .day-tasks li {
+    font-size: 13px;
+    color: #3a3a3a;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .day-tasks li::before { content: '→'; color: var(--sage); font-family: monospace; flex-shrink: 0; margin-top: 1px; }
+  .day-tasks li:last-child { border-bottom: none; }
+
+  /* FLOW */
+  .flow {
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .flow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(109,171,126,0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .flow h2 { color: var(--paper); }
+  .flow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    margin-top: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .flow-node {
+    background: rgba(245,240,232,0.1);
+    border: 1px solid rgba(245,240,232,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    min-width: 130px;
+    text-align: center;
+  }
+  .flow-node-icon { font-size: 22px; margin-bottom: 6px; }
+  .flow-node-label { font-size: 12px; font-family: 'DM Mono', monospace; color: rgba(245,240,232,0.8); }
+  .flow-node-sub { font-size: 10px; color: rgba(245,240,232,0.5); margin-top: 3px; }
+  .flow-arrow {
+    color: var(--sage-light);
+    font-size: 20px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  /* STACK TABLE */
+  .stack-table { width: 100%; border-collapse: collapse; }
+  .stack-table th {
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    padding: 10px 16px;
+    background: #f0f7f2;
+    border-bottom: 2px solid var(--sage);
+  }
+  .stack-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--mist);
+    font-size: 13.5px;
+    vertical-align: top;
+  }
+  .stack-table tr:hover td { background: #fafaf7; }
+  .tech-name { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--accent); }
+
+  /* DEMO BLOCK */
+  .demo-timeline { display: flex; flex-direction: column; gap: 0; }
+  .demo-moment {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0;
+  }
+  .demo-time-col { display: flex; flex-direction: column; align-items: center; }
+  .demo-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--sage);
+    font-weight: 500;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .demo-line { flex: 1; width: 1px; background: var(--mist); margin: 8px 0; }
+  .demo-moment:last-child .demo-line { display: none; }
+  .demo-content {
+    padding: 0 0 32px 24px;
+  }
+  .demo-content h3 { font-size: 16px; margin-bottom: 6px; }
+  .demo-content p { font-size: 14px; margin-bottom: 6px; }
+  .wow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff3e0;
+    border: 1px solid #f5d0a0;
+    color: var(--saffron);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+  .wow-badge::before { content: '★'; }
+
+  /* RISKS */
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .risk-item {
+    background: #fff;
+    border-left: 3px solid var(--rust);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+  }
+  .risk-item.mitigation { border-left-color: var(--sage); }
+  .risk-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .risk-item .risk-label { color: var(--rust); }
+  .risk-item.mitigation .risk-label { color: var(--sage); }
+
+  /* IMPACT STATS */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .stat-box {
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--sage-light);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 13px; color: rgba(245,240,232,0.7); }
+
+  /* WIN SECTION */
+  .win-list { display: flex; flex-direction: column; gap: 16px; }
+  .win-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px 24px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--mist);
+  }
+  .win-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--sage-light);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 44px;
+  }
+
+  /* AI PROMPT BLOCKS */
+  .prompt-block {
+    background: #1a1a1a;
+    color: #e8e8e8;
+    border-radius: 10px;
+    padding: 24px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+  .prompt-block .comment { color: #6dab7e; }
+  .prompt-block .key { color: #c9a227; }
+  .prompt-block .val { color: #e8872b; }
+  .prompt-block .str { color: #88ccff; }
+
+  /* ARCH DIAGRAM */
+  .arch {
+    background: #fff;
+    border: 1px solid var(--mist);
+    border-radius: 16px;
+    padding: 40px;
+    overflow-x: auto;
+  }
+  .arch-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .arch-box {
+    background: var(--paper);
+    border: 1.5px solid var(--mist);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .arch-box.ai { background: #e8f5ec; border-color: #9bcfaa; color: var(--sage); }
+  .arch-box.db { background: #fff8f0; border-color: #f5d0a0; color: #b86b1a; }
+  .arch-box.fe { background: #f0f4ff; border-color: #b8c8f0; color: #2a4a8a; }
+  .arch-arrow-row { text-align: center; color: var(--sage); font-size: 20px; margin-bottom: 12px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.5);
+    text-align: center;
+    padding: 40px 60px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  footer strong { color: var(--sage-light); }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    section { padding: 48px 24px; }
+    .toc { padding: 14px 24px; }
+    .day-grid { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .flow-steps { flex-direction: column; align-items: flex-start; }
+    .flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="badge">Google Solutions Challenge 2026</div>
+    <h1>Volun<span>Tree</span></h1>
+    <div class="hero-tagline">Community Intelligence · Offline First · India & Beyond</div>
+    <p class="hero-desc">
+      An AI-native coordination platform that converts paper surveys, voice notes, and WhatsApp field updates into a live community need graph — then routes the right volunteer to the right work before problems become crises.
+    </p>
+    <div class="hero-pills">
+      <span class="pill">Gemini API</span>
+      <span class="pill">Firebase</span>
+      <span class="pill">Flutter</span>
+      <span class="pill">Vertex AI</span>
+      <span class="pill">SDG 1 · 3 · 11 · 17</span>
+      <span class="pill">4-Day Build</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg class="tree-svg" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Trunk -->
+      <rect x="126" y="170" width="28" height="80" rx="8" fill="rgba(245,240,232,0.15)"/>
+      <!-- Main canopy circles -->
+      <circle cx="140" cy="120" r="75" fill="rgba(109,171,126,0.25)"/>
+      <circle cx="90" cy="110" r="55" fill="rgba(109,171,126,0.2)"/>
+      <circle cx="190" cy="110" r="55" fill="rgba(109,171,126,0.2)"/>
+      <circle cx="140" cy="80" r="60" fill="rgba(109,171,126,0.3)"/>
+      <!-- Volunteer nodes -->
+      <circle cx="140" cy="90" r="12" fill="rgba(232,135,43,0.9)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <circle cx="100" cy="115" r="9" fill="rgba(109,171,126,0.9)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <circle cx="180" cy="115" r="9" fill="rgba(109,171,126,0.9)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <circle cx="118" cy="140" r="7" fill="rgba(201,162,39,0.9)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <circle cx="162" cy="140" r="7" fill="rgba(201,162,39,0.9)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <circle cx="140" cy="58" r="7" fill="rgba(245,240,232,0.5)" stroke="rgba(245,240,232,0.4)" stroke-width="2"/>
+      <!-- Connecting lines -->
+      <line x1="140" y1="90" x2="100" y2="115" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+      <line x1="140" y1="90" x2="180" y2="115" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+      <line x1="140" y1="90" x2="118" y2="140" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+      <line x1="140" y1="90" x2="162" y2="140" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+      <line x1="140" y1="90" x2="140" y2="58" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+      <!-- Pulse rings -->
+      <circle cx="140" cy="90" r="22" stroke="rgba(232,135,43,0.3)" stroke-width="2" fill="none"/>
+      <circle cx="140" cy="90" r="35" stroke="rgba(232,135,43,0.15)" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="toc">
+  <a href="#solution">Solution</a>
+  <a href="#features">Features</a>
+  <a href="#ai">AI Design</a>
+  <a href="#stack">Tech Stack</a>
+  <a href="#plan">4-Day Plan</a>
+  <a href="#flow">User Flow</a>
+  <a href="#arch">Architecture</a>
+  <a href="#demo">Demo Script</a>
+  <a href="#risks">Risks</a>
+  <a href="#impact">Impact</a>
+  <a href="#win">Why Win</a>
+</nav>
+
+<!-- STEP 1–2: SOLUTION -->
+<section id="solution">
+  <div class="section-label">Step 1–2 · Idea Convergence + Core Definition</div>
+  <h2>The Final Solution</h2>
+
+  <div class="card-grid" style="margin-bottom:40px;">
+    <div class="card">
+      <div class="card-icon">🧩</div>
+      <h3>Problem</h3>
+      <p>NGOs in rural India drown in paper surveys, WhatsApp voice notes, and disconnected spreadsheets — leaving critical needs unactioned and volunteers misallocated.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">✅</div>
+      <h3>Value Proposition</h3>
+      <p>VolunTree converts chaotic field data into a live, AI-structured need map and surfaces the best volunteer match — in seconds, in any Indian language, with or without internet.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Differentiator</h3>
+      <p>Not a dashboard. A decision engine. The data capture mechanism <em>is</em> the product — field workers change nothing about how they work; AI handles the rest.</p>
+    </div>
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Who are the users?</h3>
+        <p><strong>Field Workers</strong> — ASHA workers, ground volunteers; submit reports via WhatsApp voice/photo, zero app install needed.<br>
+        <strong>NGO Coordinators</strong> — review AI-structured queue, approve assignments, monitor hotspots.<br>
+        <strong>Volunteers</strong> — receive localized task briefs via FCM push; accept/decline on Flutter app.<br>
+        <strong>NGO Leadership</strong> — view district heatmaps, urgency trends, outcome analytics.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <h3>The ONE core action</h3>
+        <p>A field worker submits any messy input (photo of handwritten form, Hindi voice note, typed text) → VolunTree structures it, scores urgency, and surfaces the top-3 matched volunteers with explanations — all within 5 seconds.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <h3>What makes this different?</h3>
+        <p>Most hackathon teams build volunteer portals. VolunTree builds a <strong>multimodal intelligence layer</strong>. Input is WhatsApp (500M Indians already use it). AI is Gemini (not keyword parsing). Matching is semantic + spatial (not nearest-neighbor). Offline works on ₹6,000 phones. Human is always in the loop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 3: FEATURES -->
+<section id="features">
+  <div class="section-label">Step 3 · Feature Prioritization (Ruthless)</div>
+  <h2>What Gets Built</h2>
+
+  <h3 style="margin-bottom:20px; color:var(--sage);">✅ MVP — 4 Days, All Demo-Visible</h3>
+  <div class="card-grid" style="margin-bottom:40px;">
+
+    <div class="card">
+      <span class="card-tag tag-mvp">MVP</span>
+      <div class="card-icon">🎤</div>
+      <h3>Multimodal Intake</h3>
+      <p><strong>Purpose:</strong> Accept photos of paper forms, Hindi/English voice notes, or typed text via WhatsApp or app.</p>
+      <p><strong>AI:</strong> Gemini Flash parses all three modalities into a fixed JSON schema (location, need type, severity, count, deadline).</p>
+      <p><strong>Why:</strong> Eliminates manual data entry — the #1 bottleneck for NGOs.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-mvp">MVP</span>
+      <div class="card-icon">⚡</div>
+      <h3>Urgency Scoring</h3>
+      <p><strong>Purpose:</strong> Rank 100 incoming needs so coordinators know exactly where to act first.</p>
+      <p><strong>AI:</strong> Hybrid rules + Gemini sentiment extraction → 0–100 urgency index with severity cues (child risk, water access, medical deadline).</p>
+      <p><strong>Why:</strong> Scarce volunteer hours go where they matter most.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-mvp">MVP</span>
+      <div class="card-icon">🔗</div>
+      <h3>Smart Volunteer Matching</h3>
+      <p><strong>Purpose:</strong> Recommend top-3 volunteers for each need with human-readable reasons.</p>
+      <p><strong>AI:</strong> Vertex AI embedding similarity (skill ↔ task) + Haversine distance + availability filter → ranked list with Gemini-generated explanation per match.</p>
+      <p><strong>Why:</strong> Right person, right place, right time — not just nearest warm body.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-mvp">MVP</span>
+      <div class="card-icon">📍</div>
+      <h3>Live Need Map</h3>
+      <p><strong>Purpose:</strong> Coordinators see a real-time Flutter dashboard with geo-clustered need pins, urgency heat overlay, and task queue.</p>
+      <p><strong>AI:</strong> Geospatial clustering surfaces hotspots automatically.</p>
+      <p><strong>Why:</strong> Visual proof during demo. Makes the invisible visible instantly.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag tag-mvp">MVP</span>
+      <div class="card-icon">📴</div>
+      <h3>Offline-First Capture</h3>
+      <p><strong>Purpose:</strong> Field workers in zero-connectivity zones still submit reports; data syncs when internet returns.</p>
+      <p><strong>AI:</strong> Data capture on-device; AI processing runs server-side on sync.</p>
+      <p><strong>Why:</strong> Non-negotiable for rural India. No offline = no adoption.</p>
+    </div>
+
+  </div>
+
+  <h3 style="margin-bottom:20px; color:var(--saffron);">⏳ Smart Add-Ons (If Time Permits)</h3>
+  <div class="card-grid" style="margin-bottom:20px;">
+    <div class="card">
+      <span class="card-tag tag-phase2">Phase 2</span>
+      <div class="card-icon">🗣️</div>
+      <h3>Voice Hotline (IVR)</h3>
+      <p>Toll-free number → Chirp 2 transcription → Gemini structuring. Zero-literacy access for most marginalized communities.</p>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-phase2">Phase 2</span>
+      <div class="card-icon">📊</div>
+      <h3>Donor Report Generator</h3>
+      <p>Gemini auto-generates a 2-page impact summary from live Firestore data. NGOs save 6 hours per grant cycle.</p>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-phase2">Phase 2</span>
+      <div class="card-icon">🔮</div>
+      <h3>Demand Forecasting</h3>
+      <p>After 3+ months of clean operational data: lightweight time-series model predicts need spikes per village/week.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 4: 4-DAY PLAN -->
+<section id="plan">
+  <div class="section-label">Step 4 · 4-Day Execution Plan</div>
+  <h2>The Build Sprint</h2>
+  <div class="day-grid">
+    <div class="day-block day-1">
+      <div class="day-label">Day 1</div>
+      <div class="day-title">Foundation</div>
+      <ul class="day-tasks">
+        <li>Firebase project + Firestore schema</li>
+        <li>Flutter app scaffold (field + admin)</li>
+        <li>Twilio WhatsApp sandbox webhook</li>
+        <li>Basic navigation + auth (phone OTP)</li>
+        <li>Volunteer + need data models</li>
+        <li>Cloud Run Python FastAPI skeleton</li>
+        <li><em>Output: App runs, data flows to Firestore</em></li>
+      </ul>
+    </div>
+    <div class="day-block day-2">
+      <div class="day-label">Day 2</div>
+      <div class="day-title">AI Core</div>
+      <ul class="day-tasks">
+        <li>Gemini Flash multimodal endpoint</li>
+        <li>Image OCR → JSON structuring</li>
+        <li>Voice note → transcription → JSON</li>
+        <li>Schema validation + confidence flags</li>
+        <li>WhatsApp confirmation reply bot</li>
+        <li>Human review queue in Flutter</li>
+        <li><em>Output: WhatsApp photo → structured Firestore record</em></li>
+      </ul>
+    </div>
+    <div class="day-block day-3">
+      <div class="day-label">Day 3</div>
+      <div class="day-title">Intelligence</div>
+      <ul class="day-tasks">
+        <li>Urgency scoring engine (rules + Gemini)</li>
+        <li>Volunteer embedding similarity matching</li>
+        <li>Gemini explanation card per match</li>
+        <li>Flutter live map with urgency pins</li>
+        <li>FCM push notification to volunteer</li>
+        <li>Offline-first: Hive local store + sync</li>
+        <li><em>Output: End-to-end intelligence loop works</em></li>
+      </ul>
+    </div>
+    <div class="day-block day-4">
+      <div class="day-label">Day 4</div>
+      <div class="day-title">Demo Polish</div>
+      <ul class="day-tasks">
+        <li>UI polish (colors, typography, icons)</li>
+        <li>Seed realistic demo data (5 villages)</li>
+        <li>Record backup demo video</li>
+        <li>Test WhatsApp → map → match full flow</li>
+        <li>Prepare 3-min live demo script</li>
+        <li>Deploy to Firebase Hosting</li>
+        <li><em>Output: Judge-ready live demo</em></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 5: AI DESIGN -->
+<section id="ai">
+  <div class="section-label">Step 5 · AI Implementation</div>
+  <h2>Where Gemini Works</h2>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">A</div>
+      <div>
+        <h3>Multimodal Extraction (Gemini Flash)</h3>
+        <p><strong>Input:</strong> Image of handwritten survey OR base64 audio clip OR raw text in Hindi/English/Hinglish.</p>
+        <p><strong>Prompt pattern:</strong> Schema-constrained JSON extraction with few-shot examples. Model instructed to output ONLY valid JSON matching a fixed schema; low-confidence fields flagged with <code>"confidence": 0.4</code> for human review.</p>
+        <div class="prompt-block">
+<span class="comment"># Example Gemini extraction prompt</span>
+<span class="key">system:</span> <span class="str">"You extract community needs from field reports. Always output valid JSON matching this schema exactly. Set confidence 0-1 per field. If unclear, flag for review."</span>
+
+<span class="key">user:</span> <span class="val">[IMAGE: crumpled survey in Hindi]</span>
+
+<span class="key">output:</span> {
+  <span class="str">"location"</span>: <span class="str">"Village Dhangaon, Ward 4"</span>,
+  <span class="str">"need_type"</span>: <span class="str">"water_access"</span>,
+  <span class="str">"severity"</span>: <span class="str">"high"</span>,
+  <span class="str">"beneficiary_count"</span>: 45,
+  <span class="str">"deadline_hours"</span>: 48,
+  <span class="str">"confidence"</span>: 0.88,
+  <span class="str">"review_needed"</span>: <span class="val">false</span>
+}
+        </div>
+        <p><strong>Runs:</strong> Cloud-side (Cloud Run). Fallback: cached responses for common need types when API unreachable.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">B</div>
+      <div>
+        <h3>Urgency Scoring (Rules + Gemini)</h3>
+        <p><strong>Stage 1 — Hard Rules:</strong> If child at risk, medicine deadline &lt; 24h, or water for 50+ people → score ≥ 85 automatically.</p>
+        <p><strong>Stage 2 — Gemini Features:</strong> Extract emotional distress signals, escalation language, repeat complaint flags from free-text description.</p>
+        <p><strong>Final score:</strong> Weighted blend → 0–100 urgency index displayed on coordinator dashboard.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">C</div>
+      <div>
+        <h3>Volunteer Matching + Explanation (Gemini + Vertex)</h3>
+        <p><strong>Step 1:</strong> Vertex AI text embeddings for volunteer skill profiles + task descriptions → cosine similarity top-10 candidates.</p>
+        <p><strong>Step 2:</strong> Filter by: language match, distance ≤ 15km, availability, gender constraint (if applicable).</p>
+        <p><strong>Step 3:</strong> Gemini generates 1-sentence explanation per top-3: <em>"Assigned to Priya because she speaks Marathi, completed 7 health visits in this block, and is 3.1 km away."</em></p>
+        <p><strong>No auto-dispatch.</strong> Coordinator always approves. Builds trust, enables override.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 6: TECH STACK -->
+<section id="stack">
+  <div class="section-label">Step 6 · Google Tech Stack</div>
+  <h2>Technology Choices</h2>
+  <table class="stack-table">
+    <thead>
+      <tr>
+        <th>Technology</th>
+        <th>Exact Role</th>
+        <th>Why Chosen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tech-name">Gemini 1.5 Flash</span></td>
+        <td>Multimodal extraction (image/audio/text → JSON), urgency feature extraction, volunteer match explanations</td>
+        <td>Single API for all modalities. Fast, cheap. Natively understands Hinglish & Hindi.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Vertex AI Embeddings</span></td>
+        <td>768-d multilingual embeddings for skill-task semantic matching</td>
+        <td>Semantic match vs keyword match — finds "clinical nutritionist" for "malnutrition" task.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Firebase Firestore</span></td>
+        <td>Real-time operational state: need records, volunteer profiles, task assignments</td>
+        <td>Offline SDK built-in. Real-time listeners power live map. Free tier generous.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Firebase Auth</span></td>
+        <td>Phone OTP login for volunteers and coordinators</td>
+        <td>No email required. India is mobile-first. Immediate adoption.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Firebase FCM</span></td>
+        <td>Push notifications to volunteer app (task assigned, task update)</td>
+        <td>100% free. Replaces costly WhatsApp Business API for outbound dispatch.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Cloud Run</span></td>
+        <td>Python FastAPI: Gemini orchestration, urgency engine, matching service</td>
+        <td>Scales to zero. Serverless. Deploy in minutes. Free tier covers hackathon.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Cloud Functions</span></td>
+        <td>Lightweight event triggers (new Firestore record → trigger extraction pipeline)</td>
+        <td>Event-driven, zero infra to manage.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Flutter</span></td>
+        <td>Field worker app (Android) + coordinator web dashboard — single codebase</td>
+        <td>One team, two targets. Hive local store for offline-first. Excellent map support.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Google Maps SDK</span></td>
+        <td>Volunteer location display, need pin map, distance calculation</td>
+        <td>Free tier sufficient. Native Flutter plugin. Judges love seeing a live map.</td>
+      </tr>
+      <tr>
+        <td><span class="tech-name">Twilio WhatsApp Sandbox</span></td>
+        <td>Inbound field worker submissions (photo, voice, text) via WhatsApp</td>
+        <td>Free sandbox for demo. Zero install for field workers. 500M Indian users already on it.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 7: USER FLOW -->
+<section id="flow">
+  <div class="section-label">Step 7 · User Flow</div>
+  <div class="flow">
+    <h2>End-to-End Flow</h2>
+    <div class="flow-steps">
+      <div class="flow-node">
+        <div class="flow-node-icon">📱</div>
+        <div class="flow-node-label">Field Worker</div>
+        <div class="flow-node-sub">WhatsApp photo/voice</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔗</div>
+        <div class="flow-node-label">Twilio Webhook</div>
+        <div class="flow-node-sub">→ Cloud Run</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🤖</div>
+        <div class="flow-node-label">Gemini Flash</div>
+        <div class="flow-node-sub">→ Structured JSON</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">✅</div>
+        <div class="flow-node-label">Human Review</div>
+        <div class="flow-node-sub">Coordinator confirms</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">⚡</div>
+        <div class="flow-node-label">Urgency Score</div>
+        <div class="flow-node-sub">0–100 index</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🎯</div>
+        <div class="flow-node-label">Top-3 Matches</div>
+        <div class="flow-node-sub">+ AI explanation</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">🔔</div>
+        <div class="flow-node-label">FCM Push</div>
+        <div class="flow-node-sub">Volunteer notified</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-node-icon">📊</div>
+        <div class="flow-node-label">Feedback Loop</div>
+        <div class="flow-node-sub">Completion logged</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 8: OFFLINE -->
+<section>
+  <div class="section-label">Step 8 · Offline + Rural Strategy</div>
+  <h2>Works Without Internet</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">💾</div>
+      <h3>What Works Offline</h3>
+      <p>Capturing new field reports (photo, voice, text). Viewing previously synced task list and volunteer profiles. Marking task completion with notes. Viewing cached need map.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <h3>Syncs When Online</h3>
+      <p>All queued reports upload to Cloud Storage. Gemini extraction triggers automatically. Firestore offline cache reconciles with server state. FCM push delivers pending notifications.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <h3>Local Storage</h3>
+      <p>Flutter Hive store for form drafts and offline captures. Firestore SDK offline persistence for real-time documents. Audio files cached locally until sync. No CRDT complexity — last-write wins for non-critical fields; admin flags conflicts for critical records.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📶</div>
+      <h3>Poor Connectivity Behavior</h3>
+      <p>App detects connectivity state via Flutter's <code>connectivity_plus</code> package. Low-bandwidth mode: text-only sync, deferred image upload. SMS fallback for critical volunteer alerts (Exotel integration, Phase 2).</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 9: DEMO -->
+<section id="demo">
+  <div class="section-label">Step 9 · Live Demo Script</div>
+  <h2>The 3-Minute WOW</h2>
+  <div class="demo-timeline">
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">0:00</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>Set the Scene</h3>
+        <p>Show split screen: WhatsApp on phone (left) + empty VolunTree dashboard (right). "This is what NGO coordination looks like today: photos on WhatsApp, Excel sheets, and guesswork."</p>
+      </div>
+    </div>
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">0:20</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>Messy Input — Live</h3>
+        <p>Hold up a crumpled, handwritten Hindi survey (prepared prop). Take a photo on phone. Send to VolunTree's WhatsApp number. Simultaneously play a 15-second Marathi voice note about a water shortage.</p>
+      </div>
+    </div>
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">0:40</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>The Magic Moment</h3>
+        <p>Without refreshing: the dashboard lights up. Two structured cards appear — <em>Water shortage, Village Dhangaon, 45 families, Urgency: 91/100</em> and <em>Medicine shortfall, Bhor Block, 8 children, Urgency: 94/100</em>. A red pin drops on the map.</p>
+        <div class="wow-badge">WOW MOMENT #1 — Paper → Intelligence in 4 seconds</div>
+      </div>
+    </div>
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">1:20</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>Smart Assignment</h3>
+        <p>Coordinator clicks the medicine need. Three volunteers appear with match scores and AI reasons: <em>"Ravi: trained nurse, 2.3km away, 91% task completion rate, speaks Marathi."</em> Coordinator taps "Assign Ravi". FCM push fires on the judge's spare phone.</p>
+        <div class="wow-badge">WOW MOMENT #2 — Explainable AI match in 1 tap</div>
+      </div>
+    </div>
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">2:10</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>The Offline Proof</h3>
+        <p>Toggle phone to airplane mode. Capture a third report on the app. Show local queue counter "1 pending sync". Toggle back to WiFi — watch it sync live.</p>
+        <div class="wow-badge">WOW MOMENT #3 — Rural-proof: works with zero internet</div>
+      </div>
+    </div>
+    <div class="demo-moment">
+      <div class="demo-time-col">
+        <div class="demo-time">2:40</div>
+        <div class="demo-line"></div>
+      </div>
+      <div class="demo-content">
+        <h3>Close with Impact</h3>
+        <p>"Three field reports. Two languages. Zero app installs for the workers. One coordinator decision in under 3 minutes. This is VolunTree." Show the UN SDG alignment slide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 10: ARCH -->
+<section id="arch">
+  <div class="section-label">Step 10 · Simple Architecture</div>
+  <h2>System Architecture</h2>
+  <div class="arch">
+    <div class="arch-row">
+      <div class="arch-box fe">Flutter Field App</div>
+      <div class="arch-box fe">WhatsApp (Twilio)</div>
+      <div class="arch-box fe">Flutter Web Dashboard</div>
+    </div>
+    <div class="arch-arrow-row">↓ HTTPS / Webhooks ↓</div>
+    <div class="arch-row">
+      <div class="arch-box">Cloud Run · FastAPI</div>
+      <div class="arch-box">Cloud Functions · Triggers</div>
+    </div>
+    <div class="arch-arrow-row">↓ AI Processing ↓</div>
+    <div class="arch-row">
+      <div class="arch-box ai">Gemini Flash · Extraction</div>
+      <div class="arch-box ai">Vertex AI · Embeddings</div>
+      <div class="arch-box ai">Urgency Engine · Rules+AI</div>
+    </div>
+    <div class="arch-arrow-row">↓ Storage & Realtime ↓</div>
+    <div class="arch-row">
+      <div class="arch-box db">Firestore · Operational</div>
+      <div class="arch-box db">Cloud Storage · Media Files</div>
+      <div class="arch-box db">Firebase FCM · Push</div>
+    </div>
+    <div class="arch-arrow-row">↓ Auth & Config ↓</div>
+    <div class="arch-row">
+      <div class="arch-box">Firebase Auth · Phone OTP</div>
+      <div class="arch-box">Google Maps SDK · Geo</div>
+    </div>
+  </div>
+  <p style="margin-top:20px; font-size:13px; color:#777;">Three backend deployables for MVP: (1) Core API / Cloud Run, (2) Cloud Functions event triggers, (3) Flutter clients (field + web). Scales to microservices post-hackathon.</p>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 11: RISKS -->
+<section id="risks">
+  <div class="section-label">Step 11 · Risks + Backup Plans</div>
+  <h2>What Can Go Wrong</h2>
+  <div class="risk-grid">
+    <div class="risk-item">
+      <div class="risk-label">Risk</div>
+      <h3>Gemini API Fails / Rate Limited</h3>
+      <p>During live demo, API quota exhausted or connectivity issues cause extraction to fail.</p>
+    </div>
+    <div class="risk-item mitigation">
+      <div class="risk-label">Mitigation</div>
+      <h3>Pre-cached Demo Responses</h3>
+      <p>Pre-process 5 demo inputs; store outputs in Firestore. Toggle a "demo mode" flag that serves cached data. Judges see identical experience.</p>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">Risk</div>
+      <h3>WhatsApp Sandbox Instability</h3>
+      <p>Twilio sandbox connection drops mid-demo or message delivery is delayed.</p>
+    </div>
+    <div class="risk-item mitigation">
+      <div class="risk-label">Mitigation</div>
+      <h3>Direct App Upload Fallback</h3>
+      <p>The Flutter app has its own upload screen (camera + audio). If WhatsApp fails, demonstrate via in-app capture. Identical AI pipeline, different input channel.</p>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">Risk</div>
+      <h3>Gemini Misreads Handwriting</h3>
+      <p>OCR/extraction produces wrong fields from badly lit, crumpled paper in demo.</p>
+    </div>
+    <div class="risk-item mitigation">
+      <div class="risk-label">Mitigation</div>
+      <h3>Human Review Queue</h3>
+      <p>Low-confidence fields are always flagged and shown in the review queue. This is a feature, not a bug — it demonstrates the human-in-the-loop design philosophy live.</p>
+    </div>
+    <div class="risk-item">
+      <div class="risk-label">Risk</div>
+      <h3>No Historical Volunteer Data</h3>
+      <p>Matching engine has no completion history to rank volunteers meaningfully.</p>
+    </div>
+    <div class="risk-item mitigation">
+      <div class="risk-label">Mitigation</div>
+      <h3>Seeded Demo Data</h3>
+      <p>Pre-load 20 realistic volunteer profiles with seeded history. Matching works immediately. Real data populates over time in production.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 12: IMPACT -->
+<section id="impact">
+  <div class="section-label">Step 12 · Real-World Impact</div>
+  <h2>How Lives Change</h2>
+
+  <div class="stats" style="margin-bottom:40px;">
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">New apps to install for field workers</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">22+</div>
+      <div class="stat-label">Indian languages Gemini understands</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">5s</div>
+      <div class="stat-label">Paper survey → structured digital record</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">SDG</div>
+      <div class="stat-label">1 · 3 · 10 · 11 · 17 aligned</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🌾</div>
+      <h3>Rural India</h3>
+      <p>ASHA workers and gram panchayat staff submit reports via WhatsApp voice in their dialect. They learn nothing new. The coordinator in the block office sees a live prioritized map. The right health volunteer arrives with the right supplies before a shortage becomes a crisis.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <h3>Low-Literacy Users</h3>
+      <p>Voice-first interface requires zero reading or writing. Hindi, Marathi, Tamil, Bhojpuri all understood. Confirmation messages use simple Yes/No. Visual task cards use icons, not paragraphs. Adoption barrier: near zero.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <h3>Global Scaling</h3>
+      <p>Only the language packs and needs ontology change per country. Architecture remains identical. Phase 2: Kenya (Swahili), Bangladesh (Bengali), Philippines (Tagalog). The community data moat grows: more NGOs → better urgency models → better outcomes everywhere.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- STEP 14: WHY WIN -->
+<section id="win">
+  <div class="section-label">Step 14 · Why This Will Win</div>
+  <h2>The Winning Edge</h2>
+  <div class="win-list">
+    <div class="win-item">
+      <div class="win-num">01</div>
+      <div>
+        <h3>Technical Strength That Judges Can See</h3>
+        <p>Multimodal Gemini (image + audio + text in one call), semantic embeddings for matching, schema-constrained JSON extraction, offline Firestore sync, FCM dispatch, Google Maps geo-clustering. Every component is visible in the 3-minute demo. No hand-waving about "our AI backend."</p>
+      </div>
+    </div>
+    <div class="win-item">
+      <div class="win-num">02</div>
+      <div>
+        <h3>Real-World Empathy Over Engineering Theater</h3>
+        <p>Most teams build for the demo, not for deployment. VolunTree meets users where they are: WhatsApp, voice notes, handwritten forms. Human-in-the-loop approval prevents AI from making dangerous autonomous decisions. Trust is designed in, not bolted on.</p>
+      </div>
+    </div>
+    <div class="win-item">
+      <div class="win-num">03</div>
+      <div>
+        <h3>Ruthless Scope Discipline</h3>
+        <p>No GNNs. No reinforcement learning. No satellite fusion. No P2P mesh networks. Every feature cut was a deliberate decision to make the remaining features excellent. What's left is buildable in 4 days and demoable in 3 minutes. Judges see a complete product, not a 30-slide vision deck with a broken prototype.</p>
+      </div>
+    </div>
+    <div class="win-item">
+      <div class="win-num">04</div>
+      <div>
+        <h3>India-First = Globally Defensible</h3>
+        <p>Designing for the hardest constraints (2G connectivity, ₹6,000 phones, multilingual dialects, low literacy, no app installs) produces a system that works everywhere. Urban NGOs in São Paulo or Nairobi are easier to serve than a field worker in Bhor Block with intermittent BSNL coverage.</p>
+      </div>
+    </div>
+    <div class="win-item">
+      <div class="win-num">05</div>
+      <div>
+        <h3>Clear UN SDG Story</h3>
+        <p>SDG 1 (No Poverty): faster resource routing to the most vulnerable. SDG 3 (Good Health): medical volunteers matched to health needs before escalation. SDG 10 (Reduced Inequalities): silent rural zones surfaced, not just loud connected ones. SDG 11 (Sustainable Communities): coordinated local response infrastructure. SDG 17 (Partnerships): NGO network effect grows the shared intelligence layer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>VolunTree</strong> · Google Solutions Challenge 2026 · Build with AI<br>
+  <span style="margin-top:8px; display:block;">Flutter · Gemini · Firebase · Vertex AI · Cloud Run · Google Maps</span>
+</footer>
+
+</body>
+</html>
